@@ -21,25 +21,30 @@ function setup(){
     engine = Engine.create();
     world = engine.world;
 
-
+    // to make the ground
     ground = new Ground(600,height,1200,20);
+    
+    //to make the platform
     platform = new Ground(150, 305, 300, 170);
 
-    box1 = new Box(700,320,70,70);
-    box2 = new Box(920,320,70,70);
+    //to make to pigs
     pig1 = new Pig(810, 350);
-    log1 = new Log(810,260,300, PI/2);
-
-    box3 = new Box(700,240,70,70);
-    box4 = new Box(920,240,70,70);
     pig3 = new Pig(810, 220);
 
-    log3 =  new Log(810,180,300, PI/2);
-
+    //to make the boxes
+    box1 = new Box(700,320,70,70);
+    box2 = new Box(920,320,70,70);
+    box3 = new Box(700,240,70,70);
+    box4 = new Box(920,240,70,70);
     box5 = new Box(810,160,70,70);
+
+    //to make the logs
+    log1 = new Log(810,260,300, PI/2);
+    log3 =  new Log(810,180,300, PI/2);
     log4 = new Log(760,120,150, PI/7);
     log5 = new Log(870,120,150, -PI/7);
 
+    //to make the bird
     bird = new Bird(200,50);
 
     //log6 = new Log(230,180,80, PI/2);
@@ -49,7 +54,7 @@ function setup(){
 function draw(){
     if(backgroundImg)
         background(backgroundImg);
-    
+    //to add the score
         noStroke();
         textSize(35)
         fill("white")
@@ -57,47 +62,61 @@ function draw(){
     
     Engine.update(engine);
     //strokeWeight(4);
+    //to display the boxes
     box1.display();
     box2.display();
-    ground.display();
-    pig1.display();
-    pig1.score();
-    log1.display();
-
     box3.display();
     box4.display();
+    box5.display();
+
+    // to display the pigs
+    pig1.display();
+    pig1.score();
     pig3.display();
     pig3.score();
-    log3.display();
+    
 
-    box5.display();
+    //to display the logs
+    log1.display();
+    log3.display();
     log4.display();
     log5.display();
 
+    //to display to bird
     bird.display();
+
+    //to display the platforms
     platform.display();
+    
     //log6.display();
+    
+    //to display the ground
+    ground.display();
+    
+    //to display the slingshot
     slingshot.display();    
 }
-
+//to make the bird get dragged with the mouse
 function mouseDragged(){
     //if (gameState!=="launched"){
         Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
     //}
 }
 
-
+//to let the bird fly
 function mouseReleased(){
     slingshot.fly();
     gameState = "launched";
 }
-
+//to make the bird rest back to the slingshot
 function keyPressed(){
     if(keyCode === 32){
        slingshot.attach(bird.body);
+       bird.trajectory = [];
+       Matter.Body.setPosition(bird.body, {x:200, y:50});
     }
 }
-
+//to have a chaning background based on the time
 async function getBackgroundImg(){
     var response = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata");
     var responseJSON = await response.json();
@@ -111,7 +130,7 @@ async function getBackgroundImg(){
     else{
         bg = "sprites/bg2.jpg";
     }
-
+    // to make the background changeable
     backgroundImg = loadImage(bg);
     console.log(backgroundImg);
 }

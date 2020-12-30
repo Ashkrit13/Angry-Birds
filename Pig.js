@@ -21,6 +21,7 @@ class Pig extends BaseClass {
   }
 
   score(){
+    // to make the pigs disapear and increase the score
     if (this.Visiblity < 0 && this.Visiblity > -1005){
       score++;
     }
